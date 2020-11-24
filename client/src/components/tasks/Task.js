@@ -1,23 +1,25 @@
 import React, { useContext } from 'react'
 
-import taskContext from '../../context/tasks/taskContext'
-import projectContext from '../../context/projects/projectContext'
+import TaskContext from '../../context/tasks/taskContext'
+import ProjectContext from '../../context/projects/projectContext'
 
 const Task = ({ task }) => {
     
     // Context
-    const tasksContext = useContext(taskContext)
-    const projectsContext = useContext(projectContext)
+    const taskContext = useContext(TaskContext)
+    const projectContext = useContext(ProjectContext)
 
     // Destructuring
     const { name, state } = task
-    const { getProjectTasks, updateTaskState, currentTask, deleteTask } = tasksContext
-    const { project } = projectsContext  
+    const { getProjectTasks, updateTask, currentTask, deleteTask } = taskContext
+    const { project } = projectContext  
+
+    const [currentProject] = project
 
     // Delete task
     const handleClickDelete = id => {
-        deleteTask(id)
-        getProjectTasks(project[0].id) // project is an array, and the current project is at index 0
+        deleteTask(id, currentProject._id)
+        getProjectTasks(currentProject.id) 
     }
 
     // Update task state
@@ -27,7 +29,7 @@ const Task = ({ task }) => {
         } else {
             task.state = true
         }
-        updateTaskState(task)
+        updateTask(task)
     }
 
     // Select task to update
@@ -61,7 +63,7 @@ const Task = ({ task }) => {
                 <button
                     type='button'
                     className='btn btn-secondary'
-                    onClick= {() => handleClickDelete(task.id)}
+                    onClick= {() => handleClickDelete(task._id)}
                 >Delete</button>
             </div>
 

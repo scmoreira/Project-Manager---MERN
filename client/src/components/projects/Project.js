@@ -1,17 +1,16 @@
 import React, { useContext } from 'react'
-import projectContext from '../../context/projects/projectContext'
-import taskContext from '../../context/tasks/taskContext'
-
+import ProjectContext from '../../context/projects/projectContext'
+import TaskContext from '../../context/tasks/taskContext'
 
 const Project = ({ project }) => {
     
     // Context
-    const projectsContext = useContext(projectContext)
-    const tasksContext = useContext(taskContext)
+    const projectContext = useContext(ProjectContext)
+    const taskContext = useContext(TaskContext)
 
     // Destructuring
-    const { currentProject } = projectsContext
-    const { getProjectTasks } = tasksContext
+    const { currentProject } = projectContext
+    const { getProjectTasks } = taskContext
 
 
     // Update context
@@ -25,7 +24,7 @@ const Project = ({ project }) => {
             <button
                 type='button'
                 className='btn btn-blank'
-                onClick={() => handleClick(project.id)}
+                onClick={() => handleClick(project._id)}
             >{project.name}</button>
         </li>
     )

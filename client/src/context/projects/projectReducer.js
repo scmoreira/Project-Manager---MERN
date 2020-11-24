@@ -4,10 +4,11 @@ import {
     ADD_PROJECT,
     PROJECT_VALIDATION,
     CURRENT_PROJECT,
-    DELETE_PROJECT
+    DELETE_PROJECT,
+    PROJECT_ERROR
 } from '../../types'
 
-export default (state, action) => {
+const ProjectReducer =  (state, action) => {
     switch (action.type) {
         case PROJECT_FORM:
             return {
@@ -34,15 +35,22 @@ export default (state, action) => {
         case CURRENT_PROJECT:
             return {
                 ...state,
-                project: state.projects.filter(project => project.id === action.payload)
+                project: state.projects.filter(project => project._id === action.payload)
             }
         case DELETE_PROJECT:
             return {
                 ...state,
-                projects: state.projects.filter(project => project.id !== action.payload),
+                projects: state.projects.filter(project => project._id !== action.payload),
                 project: null
+            }
+        case PROJECT_ERROR:
+            return {
+                ...state,
+                message: action.payload
             }
         default:
             return state
     }
 }
+
+export default ProjectReducer

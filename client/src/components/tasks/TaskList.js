@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from 'react'
 
-import projectContext from '../../context/projects/projectContext'
-import taskContext from '../../context/tasks/taskContext'
+import ProjectContext from '../../context/projects/projectContext'
+import TaskContext from '../../context/tasks/taskContext'
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
@@ -10,12 +10,12 @@ import Task from './Task'
 const TaskList = () => {
 
     // Context
-    const projectsContext = useContext(projectContext)
-    const tasksContext = useContext(taskContext)
+    const projectContext = useContext(ProjectContext)
+    const taskContext = useContext(TaskContext)
 
     // Destructuring
-    const { project, deleteProject } = projectsContext  // project is an array
-    const { projectTasks } = tasksContext
+    const { project, deleteProject } = projectContext  // project is an array
+    const { projectTasks } = taskContext
 
     // Check if there is any project selected
     if (!project) return <h2>Select a project</h2>
@@ -29,7 +29,7 @@ const TaskList = () => {
                     : <TransitionGroup>
                         {projectTasks.map(task => (
                             <CSSTransition
-                                key={task.id}
+                                key={task._id}
                                 timeout={200}
                                 classNames='task'
                             >
@@ -41,7 +41,7 @@ const TaskList = () => {
                 <button
                     type='button'
                     // Delete project
-                    onClick={() => deleteProject(project[0].id)}
+                    onClick={() => deleteProject(project[0]._id)}
                     className='btn btn-secondary'>Delete Project &times;</button>
             </ul>
         </Fragment>

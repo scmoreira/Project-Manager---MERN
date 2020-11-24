@@ -1,16 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react'
-import projectContext from '../../context/projects/projectContext'
-import taskContext from '../../context/tasks/taskContext'
+import ProjectContext from '../../context/projects/projectContext'
+import TaskContext from '../../context/tasks/taskContext'
 
 const TaskForm = () => {
 
     // Context
-    const projectsContext = useContext(projectContext)
-    const tasksContext = useContext(taskContext)
+    const projectContext = useContext(ProjectContext)
+    const taskContext = useContext(TaskContext)
 
     // Destructuring
-    const { project } = projectsContext
-    const { selectedTask, taskValidation, getProjectTasks, showError, addTask, updateTask } = tasksContext
+    const { project } = projectContext
+    const { selectedTask, taskValidation, getProjectTasks, showError, addTask, updateTask } = taskContext
 
     // State
     const [task, setTask] = useState({ name: '' })
@@ -47,8 +47,7 @@ const TaskForm = () => {
         // Check if creating or updating 
         if (selectedTask === null) {
             // Add task
-            task.projectId = project[0].id
-            task.state = false
+            task.projectId = project[0]._id
             addTask(task)
         } else {
             // Update task

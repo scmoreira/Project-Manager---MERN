@@ -90,6 +90,9 @@ a {
   display: block;
   background-color: transparent;
 }
+.logout {
+  color: var(--blanco);
+}
 
 /* HEADER */
 .app-header {

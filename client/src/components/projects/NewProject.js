@@ -1,18 +1,18 @@
 import React, { Fragment, useContext, useState } from 'react'
 
-import projectContext from '../../context/projects/projectContext'
+import ProjectContext from '../../context/projects/projectContext'
 
 const NewProject = () => {
 
     // Context
-    const projectsContext = useContext(projectContext)
+    const projectContext = useContext(ProjectContext)
 
     // State
     const [project, setProject] = useState({ name:'' })
 
     // Destructuring
     const { name } = project
-    const { formState, projectValidation, showForm, showError, addProject } = projectsContext
+    const { formState, projectValidation, showForm, showError, addProject } = projectContext
 
     // Update project state
     const handleChange = e => {

@@ -1,8 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-const Login = () => {
+import AlertContext from '../../context/alert/alertContext'
+import AuthContext from '../../context/auth/authContext'
 
+const Login = props => {
+
+    // Context
+    const alertContext = useContext(AlertContext)
+    const authContext = useContext(AuthContext)
+    
     // States
     const [user, setUser] = useState({
         email: '',
@@ -11,6 +18,8 @@ const Login = () => {
 
     //Distructuring
     const { email, password } = user
+    const { alert, showAlert } = alertContext
+    const { authenticated, message, login } = authContext
 
     // Update state
     const handleChange = e => {
@@ -20,16 +29,34 @@ const Login = () => {
         })
     }
 
+    // Submit form
     const handleSubmit = e => {
         e.preventDefault()
 
         // Check for empty fields
+        if (email.trim() === '' || password.trim() === '') {
+            showAlert('All fields required', 'alert-error')
+        }
 
-
+        login({ email, password })
     }
+
+     // Response 
+     useEffect(() => {
+
+        if (authenticated) {
+            props.history.push('/projects')
+        }
+
+        if (message) {
+            showAlert(message.message, message.category)
+         }
+        // eslint-disable-next-line
+    }, [message, authenticated, props.history])
     
     return (
         <div className='user-form'>
+            {alert && <div className={`alert ${alert.category}`}>{ alert.message }</div>}
             <div className='form-container shadow-dark'>
                 <h1>Login</h1>
 

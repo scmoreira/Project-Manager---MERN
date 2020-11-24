@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+
+import UserService from '../../service/user.service'
 
 import TaskContext from './taskContext'
 import TaskReducer from './taskReducer'
@@ -7,7 +8,6 @@ import {
     GET_PROJECT_TASKS,
     ADD_TASK,
     TASK_VALIDATION,
-    TASK_STATE,
     CURRENT_TASK,
     UPDATE_TASK,
     DELETE_TASK
@@ -17,15 +17,7 @@ const TaskState = props => {
 
     // Set initial State
     const initialState = {
-        tasks: [
-            { id: 1, name: 'Set canvas', state: true, projectId: 1 },
-            { id: 2, name: 'Create classes', state: true, projectId: 1 },
-            { id: 3, name: 'Set methods', state: false, projectId: 1 },
-            { id: 4, name: 'API request', state: true, projectId: 2 },
-            { id: 5, name: 'Create partials', state: true, projectId: 2 },
-            { id: 6, name: 'Set BBDD', state: false, projectId: 2 }
-        ],
-        projectTasks: null,
+        projectTasks: [],
         selectedTask: null,
         taskValidation: false
     }
@@ -34,8 +26,17 @@ const TaskState = props => {
     const [state, dispatch] = useReducer(TaskReducer, initialState)
 
     // Get project tasks
-    const getProjectTasks = projectId => {
-        dispatch({ type: GET_PROJECT_TASKS, payload: projectId })
+    const getProjectTasks = async projectId => {
+
+        try {
+            const response = await UserService.get('/api/task', { params: { projectId } })
+            dispatch({
+                type: GET_PROJECT_TASKS,
+                payload: response.data.tasks
+            })
+        } catch (error) {
+            console.log(error)
+        }
     } 
 
     // Form validation
@@ -44,42 +45,52 @@ const TaskState = props => {
     }
 
     // Add new task to a project
-    const addTask = task => {
-        task.id = uuidv4()
-        dispatch({ type: ADD_TASK, payload: task })
+    const addTask = async task => {
+        try {
+            await UserService.post('/api/task', task)
+            dispatch({ type: ADD_TASK, payload: task })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
-    // Update task state
-    const updateTaskState = task => {
-        dispatch({ type: TASK_STATE, payload: task })
+    // Update task
+    const updateTask = async task => {
+        
+        try {
+            const response = await UserService.put(`/api/task/${task._id}`, task)
+            dispatch({ type: UPDATE_TASK, payload: response.data.task })
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     // Select a task from the task list
     const currentTask = task => {
         dispatch({ type: CURRENT_TASK, payload: task})
     }
-
-    // Update task
-    const updateTask = task => {
-        dispatch({ type: UPDATE_TASK, payload: task })
-    }
     
     // Delete task
-    const deleteTask = taskId => {
-        dispatch({ type: DELETE_TASK, payload: taskId })
+    const deleteTask = async (taskId, projectId) => {
+        console.log( ' taskID  ' + taskId + '   projectID  ' + projectId)
+        try {
+            await UserService.delete(`/api/task/${taskId}`, {params: { projectId }})
+            dispatch({ type: DELETE_TASK, payload: taskId })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
         <TaskContext.Provider
             value = {{
-                tasks: state.tasks,
                 projectTasks: state.projectTasks,
                 selectedTask: state.selectedTask,
                 taskValidation: state.taskValidation,
                 getProjectTasks,
                 showError,
                 addTask,
-                updateTaskState,
                 currentTask,
                 updateTask,
                 deleteTask
