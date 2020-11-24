@@ -4,6 +4,7 @@ const jsw = require('jsonwebtoken')
 
 const User = require('../models/user.model')
 
+// Authenticate user
 exports.authenticateUser = async (req, res) => {
 
     // Check validation
@@ -42,7 +43,7 @@ exports.authenticateUser = async (req, res) => {
         }
 
         jsw.sign(payload, process.env.SECRET, {
-            expiresIn: 3600
+            expiresIn: 3600 // Time to keep the token as valid
         }, (error, token) => {
                 
             if (error) throw error
@@ -53,5 +54,16 @@ exports.authenticateUser = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ message: 'Error at login' })
+    }
+}
+
+// Get authenticated user
+exports.authenticatedUser = async (req, res) => {
+
+    try {
+        const user = await User.findById(req.user.id).select('-password')
+        res.json({user})
+    } catch (error) {
+            res.status(500).json({ message: 'Error' })
     }
 }

@@ -2,20 +2,18 @@ const express = require('express')
 const router = express.Router()
 const { check } = require('express-validator')
 
+const auth = require('../configs/middleware.config')
 const authController = require('../controllers/authController')
 
 // Endpoint: api/auth
 
 // Create user
-router.post('/',
-    
-    // Validation
-    [
-        check('email', 'Email not valid').isEmail(),
-        check('password', 'Password must contain at least 5 characters').isLength({ min: 5 })
-    ],
+router.post('/', authController.authenticateUser)
 
-    authController.authenticateUser
+// Get authenticated user
+router.get('/',
+    auth,
+    authController.authenticatedUser
 )
 
 module.exports = router

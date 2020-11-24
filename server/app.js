@@ -7,6 +7,10 @@ require('./configs/mongoose.config')
 const express = require('express')
 const app = express()
 
+// Enable CORS
+const cors = require('cors')
+app.use(cors())
+
 // Enable express.json
 app.use(express.json({ extended: true }))
 
