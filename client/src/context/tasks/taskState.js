@@ -73,7 +73,6 @@ const TaskState = props => {
     
     // Delete task
     const deleteTask = async (taskId, projectId) => {
-        console.log( ' taskID  ' + taskId + '   projectID  ' + projectId)
         try {
             await UserService.delete(`/api/task/${taskId}`, {params: { projectId }})
             dispatch({ type: DELETE_TASK, payload: taskId })
