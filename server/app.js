@@ -20,9 +20,7 @@ app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/project', require('./routes/project.routes'))
 app.use('/api/task', require('./routes/task.routes'))
 
-// Port
-const port = process.env.port || 5000
 // Server
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Listening on http://localhost:${port}`)
+app.listen(process.env.PORT, '0.0.0.0', () => {
+    console.log(`Listening on http://localhost:${process.env.PORT}`)
 })
