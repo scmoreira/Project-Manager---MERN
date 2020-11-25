@@ -14,6 +14,7 @@ export const TASK_VALIDATION = 'TASK_VALIDATION'
 export const DELETE_TASK = 'DELETE_TASK'
 export const CURRENT_TASK = 'CURRENT_TASK'
 export const UPDATE_TASK = 'UPDATE_TASK'
+export const CLEAN_SELECTED = 'CLEAN_SELECTED'
 
 // Alert types
 export const SHOW_ALERT = 'SHOW_ALERT'

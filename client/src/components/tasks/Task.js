@@ -13,7 +13,7 @@ const Task = ({ task }) => {
     const { name, state } = task
     const { getProjectTasks, updateTask, currentTask, deleteTask } = taskContext
     const { project } = projectContext  
-
+    
     const [currentProject] = project
 
     // Delete task
@@ -33,9 +33,7 @@ const Task = ({ task }) => {
     }
 
     // Select task to update
-    const handleClickEdit = task => {
-        currentTask(task)
-    }
+    const handleClickEdit = task => { currentTask(task) }
 
     return (
         <li className='task shadow'>

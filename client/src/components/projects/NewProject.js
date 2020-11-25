@@ -25,20 +25,15 @@ const NewProject = () => {
     // Submit project
     const handleSubmit = e => {
         e.preventDefault()
-
         // Field validation
         if (name.trim() === '') {
             showError()
             return
         }
-
         // Add project
         addProject(project)
-        
         // Restart form
-        setProject({
-            name: ''
-        })
+        setProject({ name: '' })
     }
 
     return (

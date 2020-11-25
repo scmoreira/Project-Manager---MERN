@@ -10,7 +10,8 @@ import {
     TASK_VALIDATION,
     CURRENT_TASK,
     UPDATE_TASK,
-    DELETE_TASK
+    DELETE_TASK,
+    CLEAN_SELECTED,
 } from '../../types'
 
 const TaskState = props => {
@@ -19,7 +20,7 @@ const TaskState = props => {
     const initialState = {
         projectTasks: [],
         selectedTask: null,
-        taskValidation: false
+        taskValidation: false,
     }
 
     // Dispatch to execute actions
@@ -27,7 +28,6 @@ const TaskState = props => {
 
     // Get project tasks
     const getProjectTasks = async projectId => {
-
         try {
             const response = await UserService.get('/api/task', { params: { projectId } })
             dispatch({
@@ -50,17 +50,16 @@ const TaskState = props => {
             await UserService.post('/api/task', task)
             dispatch({ type: ADD_TASK, payload: task })
         } catch (error) {
-            console.log(error)
+            console.log(error.message)
         }
     }
 
     // Update task
     const updateTask = async task => {
-        
+        console.log(task)
         try {
             const response = await UserService.put(`/api/task/${task._id}`, task)
             dispatch({ type: UPDATE_TASK, payload: response.data.task })
-
         } catch (error) {
             console.log(error)
         }
@@ -70,6 +69,11 @@ const TaskState = props => {
     const currentTask = task => {
         dispatch({ type: CURRENT_TASK, payload: task})
     }
+
+    // Clean selected task
+    const cleanSelected = () => {
+        dispatch({ type: CLEAN_SELECTED })
+    }
     
     // Delete task
     const deleteTask = async (taskId, projectId) => {
@@ -77,7 +81,7 @@ const TaskState = props => {
             await UserService.delete(`/api/task/${taskId}`, {params: { projectId }})
             dispatch({ type: DELETE_TASK, payload: taskId })
         } catch (error) {
-            console.log(error)
+          console.log(error)
         }
     }
 
@@ -92,7 +96,8 @@ const TaskState = props => {
                 addTask,
                 currentTask,
                 updateTask,
-                deleteTask
+                deleteTask,
+                cleanSelected
             }}
         >
             {props.children}

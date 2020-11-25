@@ -30,12 +30,11 @@ const ProjectState = props => {
 
     // Get projects
     const getProjects = async () => {
-
         try {
             const response = await UserService.get('/api/project')
-            dispatch({ type: GET_PROJECTS,payload: response.data })
+            dispatch({ type: GET_PROJECTS, payload: response.data })
         } catch (error) {
-             const alert = {
+            const alert = {
                 message: 'An error has ocurred',
                 category: 'alert-error'
             }
@@ -44,20 +43,18 @@ const ProjectState = props => {
                 payload: alert
             })
         }
-        
     }
 
     // CRUD Functions
     const showForm = () => { dispatch({ type: PROJECT_FORM }) }
 
-     // Form validation
-     const showError = () => { dispatch({ type: PROJECT_VALIDATION }) }
+    // Form validation
+    const showError = () => { dispatch({ type: PROJECT_VALIDATION }) }
 
     // Add new project
     const addProject = async project => {
         try {
             const response = await UserService.post('/api/project', project)
-            
             dispatch({
                 type: ADD_PROJECT,
                 payload: response.data

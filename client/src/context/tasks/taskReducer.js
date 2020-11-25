@@ -4,7 +4,8 @@ import {
     TASK_VALIDATION,
     CURRENT_TASK,
     UPDATE_TASK,
-    DELETE_TASK
+    DELETE_TASK,
+    CLEAN_SELECTED
 } from '../../types'
 
 const TaskReducer = (state, action) => {
@@ -29,7 +30,6 @@ const TaskReducer = (state, action) => {
             return {
                 ...state,
                 projectTasks: state.projectTasks.map(task => task._id === action.payload._id ? action.payload : task),
-                selectedTask: null
             }
         case CURRENT_TASK:
             return {
@@ -40,6 +40,11 @@ const TaskReducer = (state, action) => {
             return {
                 ...state,
                 projectTasks: state.projectTasks.filter(task => task._id !== action.payload)
+            }
+        case CLEAN_SELECTED:
+            return {
+                ...state,
+                selectedTask: null
             }
         default:
             return state

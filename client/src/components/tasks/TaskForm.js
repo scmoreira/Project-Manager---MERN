@@ -10,7 +10,7 @@ const TaskForm = () => {
 
     // Destructuring
     const { project } = projectContext
-    const { selectedTask, taskValidation, getProjectTasks, showError, addTask, updateTask } = taskContext
+    const { selectedTask, taskValidation, getProjectTasks, showError, addTask, updateTask, cleanSelected } = taskContext
 
     // State
     const [task, setTask] = useState({ name: '' })
@@ -52,6 +52,8 @@ const TaskForm = () => {
         } else {
             // Update task
             updateTask(task)
+            // Clean selected task
+            cleanSelected()
         }
 
         // Update context
