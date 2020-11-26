@@ -47,8 +47,8 @@ const TaskState = props => {
     // Add new task to a project
     const addTask = async task => {
         try {
-            await UserService.post('/api/task', task)
-            dispatch({ type: ADD_TASK, payload: task })
+            const response = await UserService.post('/api/task', task)
+            dispatch({ type: ADD_TASK, payload: response.data.task })
         } catch (error) {
             console.log(error.message)
         }
