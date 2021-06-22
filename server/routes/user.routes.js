@@ -1,14 +1,14 @@
-const express = require('express')
-const router = express.Router()
-const { check } = require('express-validator')
+const express = require('express');
+const router = express.Router();
+const { check } = require('express-validator');
 
-const userController = require('../controllers/userController')
+const userController = require('../controllers/userController');
 
 // Endpoint: api/user
 
 // Create user
 router.post('/',
-    
+
     // Validation
     [
         check('username', 'Username is required').not().isEmpty(),
@@ -17,6 +17,6 @@ router.post('/',
     ],
 
     userController.createUser
-)
+);
 
-module.exports = router
+module.exports = router;

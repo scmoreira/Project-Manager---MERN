@@ -1,33 +1,27 @@
-import React, { useContext, useEffect } from 'react'
-import AuthContext from '../../context/auth/authContext'
+import React, { useContext, useEffect } from 'react';
+import AuthContext from '../../context/auth/authContext';
 
 const Navbar = () => {
 
-     // Context
-     const authContext = useContext(AuthContext)
+    const { user, authenticatedUser, logout } = useContext(AuthContext);
 
-     // Destructuring
-     const { user, authenticatedUser, logout } = authContext
- 
-     // Update
     useEffect(() => {
-        authenticatedUser()
+        authenticatedUser();
         // eslint-disable-next-line
-    }, [])
-    
+    }, []);
+
     return (
         <header className='app-header'>
-            {user && <p className='user-name'>Hola <span>{ user.username }</span></p>}
-
+            {user && <p className='user-name'>Hola <span>{ user.username }</span></p> }
             <nav className='main-nav'>
-                <button 
+                <button
                     className='btn btn-blank logout'
-                    onClick = {() => logout()}
-                > Logout</button>     
+                    onClick={ () => logout() }
+                    data-cy='logout'
+                > Logout</button>
             </nav>
         </header>
 
-        )
-
-}
-export default Navbar
+    );
+};
+export default Navbar;

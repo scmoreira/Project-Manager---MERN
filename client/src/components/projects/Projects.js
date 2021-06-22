@@ -1,25 +1,21 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react';
 
-import AuthContext from '../../context/auth/authContext'
+import AuthContext from '../../context/auth/authContext';
 
-import Sidebar from '../layout/Sidebar'
-import Navbar from '../layout/Navbar'
-import TaskForm from '../tasks/TaskForm'
-import TaskList from '../tasks/TaskList'
+import Sidebar from '../layout/Sidebar';
+import Navbar from '../layout/Navbar';
+import TaskForm from '../tasks/TaskForm';
+import TaskList from '../tasks/TaskList';
 
 const Projects = () => {
 
     // Context
-    const authContext = useContext(AuthContext)
+    const { authenticatedUser } = useContext(AuthContext);
 
-    // Destructuring
-    const { authenticatedUser } = authContext
-
-    // Update
     useEffect(() => {
-        authenticatedUser()
+        authenticatedUser();
         // eslint-disable-next-line
-    }, [])
+    }, []);
 
     return (
         <div className='app-container'>
@@ -34,7 +30,7 @@ const Projects = () => {
                 </main>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Projects
+export default Projects;

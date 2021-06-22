@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import NewProject from '../projects/NewProject'
-import ProjectList from '../projects/ProjectList.js'
+import NewProject from '../projects/NewProject';
+import ProjectList from '../projects/ProjectList.js';
 
 const Sidebar = () => {
     return (
@@ -13,7 +13,7 @@ const Sidebar = () => {
                 <ProjectList />
             </div>
         </aside>
-    )
-}
+    );
+};
 
-export default Sidebar
+export default Sidebar;

@@ -1,9 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const { check } = require('express-validator')
+const express = require('express');
+const router = express.Router();
+const { check } = require('express-validator');
 
-const projectController = require('../controllers/projectController')
-const auth = require('../configs/middleware.config')
+const projectController = require('../controllers/projectController');
+const auth = require('../configs/middleware.config');
 
 // Endpoint: api/project
 
@@ -11,7 +11,7 @@ const auth = require('../configs/middleware.config')
 router.get('/',
     auth,
     projectController.getProjects
-)
+);
 
 // Create new project
 router.post('/',
@@ -20,7 +20,7 @@ router.post('/',
         check('name', 'Project name is required').not().isEmpty()
     ],
     projectController.createProject
-)
+);
 
 // Update a project
 router.put('/:id',
@@ -29,12 +29,12 @@ router.put('/:id',
         check('name', 'Project name is required').not().isEmpty()
     ],
     projectController.updateProject
-)
+);
 
 // Delete project
 router.delete('/:id',
     auth,
     projectController.deleteProject
-)
+);
 
-module.exports = router
+module.exports = router;

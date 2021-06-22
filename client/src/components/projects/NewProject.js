@@ -1,76 +1,65 @@
-import React, { Fragment, useContext, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react';
 
-import ProjectContext from '../../context/projects/projectContext'
+import ProjectContext from '../../context/projects/projectContext';
 
 const NewProject = () => {
 
     // Context
-    const projectContext = useContext(ProjectContext)
+    const { formState, projectValidation, showForm, showError, addProject } = useContext(ProjectContext);
+    const [project, setProject] = useState({ name: '' });
 
-    // State
-    const [project, setProject] = useState({ name:'' })
+    const { name } = project;
 
-    // Destructuring
-    const { name } = project
-    const { formState, projectValidation, showForm, showError, addProject } = projectContext
-
-    // Update project state
     const handleChange = e => {
         setProject({
             ...project,
-            [e.target.name] : e.target.value
-        })
-    }
+            [e.target.name]: e.target.value
+        });
+    };
 
-    // Submit project
     const handleSubmit = e => {
-        e.preventDefault()
-        // Field validation
+        e.preventDefault();
         if (name.trim() === '') {
-            showError()
-            return
+            showError();
+            return;
         }
-        // Add project
-        addProject(project)
-        // Restart form
-        setProject({ name: '' })
-    }
+        addProject(project);
+        setProject({ name: '' });
+    };
 
     return (
         <Fragment>
             <button
                 type='button'
                 className='btn btn-block btn-primary'
-                onClick={() => showForm()}  // Change form state to show the form
-            >New Project</button>
-            
+                onClick={ () => showForm() }  // Change form state to show the form
+                data-cy='new-project-button'
+            >
+                New Project
+            </button>
             { formState && <form
                 className='form-new-project'
-                onSubmit={handleSubmit}
+                onSubmit={ handleSubmit }
             >
-                <input 
+                <input
                     type='text'
                     name='name'
-                    value={name}
+                    value={ name }
                     className='input-text'
                     placeholder='Project Name'
-                    onChange={handleChange}
+                    onChange={ handleChange }
+                    data-cy='new-project-input'
                 />
                 <input
                     type='submit'
                     className='btn btn-block btn-primary'
                     value='Add Project'
+                    data-cy='submit-new-project'
                 />
-            </form>}
-            
-            {projectValidation && <p className='message error'>Project name is requiered</p>}
+            </form> }
+            {projectValidation && <p data-cy='alert' className='message error'>Project name is requiered</p> }
         </Fragment>
-    )
-}
+    );
+};
 
-export default NewProject
-
-
-
-
-
+export default NewProject;

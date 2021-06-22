@@ -1,50 +1,47 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react';
 
-import ProjectContext from '../../context/projects/projectContext'
-import AlertContext from '../../context/alert/alertContext'
+import ProjectContext from '../../context/projects/projectContext';
+import AlertContext from '../../context/alert/alertContext';
 
-import Project from './Project.js'
+import Project from './Project.js';
 
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const ProjectList = () => {
 
     // Context
-    const projectContext = useContext(ProjectContext)
-    const alertContext = useContext(AlertContext)
+    const { projects, message, getProjects } = useContext(ProjectContext);
+    const { alert, showAlert } = useContext(AlertContext);
 
-    // Destructuring
-    const { projects, message, getProjects } = projectContext
-    const { alert, showAlert } = alertContext
-
-    // Get projects from context
     useEffect(() => {
         if (message) {
-            showAlert(message.message, message.category)
+            showAlert(message.message, message.category);
         }
-        getProjects()
+        getProjects();
         // eslint-disable-next-line
-    }, [message])
+    }, [message]);
 
-    // Check if there isn't any project
-    if (projects.length === 0) return <p>No projects found!</p>
-   
+    if (projects.length === 0) return <p>No projects found!</p>;
+
     return (
-        <ul className='project-list'>
-            { alert && <div className={`alert ${alert.category}`}>{ alert.message}</div> }
+        <ul
+            data-cy='project-list'
+            className='project-list'
+        >
+            { alert && <div className={ `alert ${alert.category}` }>{ alert.message }</div> }
             <TransitionGroup>
-                {projects.map(project => (
+                { projects.map(project => (
                     <CSSTransition
-                        key={project._id}
-                        timeout={200}
+                        key={ project._id }
+                        timeout={ 200 }
                         classNames='project'
                     >
-                    <Project project={project} />
+                        <Project project={ project } />
                     </CSSTransition>
-                ))}
+                )) }
             </TransitionGroup>
         </ul>
-    )
-}
+    );
+};
 
-export default ProjectList
+export default ProjectList;

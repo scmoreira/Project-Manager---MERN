@@ -1,86 +1,77 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-import AlertContext from '../../context/alert/alertContext'
-import AuthContext from '../../context/auth/authContext'
+import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
+import Alert from '../layout/Alert';
 
 const Login = props => {
 
-    // Context
-    const alertContext = useContext(AlertContext)
-    const authContext = useContext(AuthContext)
-    
-    // States
+    const { alert, showAlert } = useContext(AlertContext);
+    const { authenticated, message, login } = useContext(AuthContext);
     const [user, setUser] = useState({
         email: '',
         password: ''
-    })
+    });
 
-    //Distructuring
-    const { email, password } = user
-    const { alert, showAlert } = alertContext
-    const { authenticated, message, login } = authContext
+    const { email, password } = user;
 
-    // Update state
     const handleChange = e => {
         setUser({
             ...user,
-            [e.target.name] : e.target.value
-        })
-    }
+            [e.target.name]: e.target.value
+        });
+    };
 
-    // Submit form
     const handleSubmit = e => {
-        e.preventDefault()
-
-        // Check for empty fields
+        e.preventDefault();
         if (email.trim() === '' || password.trim() === '') {
-            showAlert('All fields required', 'alert-error')
+            showAlert('All fields required', 'alert-error');
         }
+        login({ email, password });
+    };
 
-        login({ email, password })
-    }
-
-     // Response 
-     useEffect(() => {
-
+    useEffect(() => {
         if (authenticated) {
-            props.history.push('/projects')
+            props.history.push('/projects');
         }
-
         if (message) {
-            showAlert(message.message, message.category)
-         }
+            showAlert(message.message, message.category);
+        }
         // eslint-disable-next-line
-    }, [message, authenticated, props.history])
-    
+    }, [message, authenticated, props.history]);
+
     return (
         <div className='user-form'>
-            {alert && <div className={`alert ${alert.category}`}>{ alert.message }</div>}
+            <Alert alert={ alert } />
             <div className='form-container shadow-dark'>
-                <h1>Login</h1>
-
-                <form onSubmit={handleSubmit}>
+                <h1 data-cy='title'>Login</h1>
+                <form
+                    onSubmit={ handleSubmit }
+                    data-cy='login-form'
+                >
                     <div className='form-field'>
                         <label htmlFor='email'>Email</label>
-                        <input 
+                        <input
                             type='email'
                             id='email'
                             name='email'
-                            value={email}
+                            value={ email }
                             placeholder='Your email'
-                            onChange={handleChange}
+                            onChange={ handleChange }
+                            data-cy='email-input'
                         />
                     </div>
                     <div className='form-field'>
                         <label htmlFor='password'>Password</label>
-                        <input 
+                        <input
                             type='password'
                             id='password'
                             name='password'
-                            value={password}
+                            value={ password }
                             placeholder='Your password'
-                            onChange={handleChange}
+                            onChange={ handleChange }
+                            data-cy='password-input'
                         />
                     </div>
                     <div className='form-field'>
@@ -88,15 +79,20 @@ const Login = props => {
                             type='submit'
                             className='btn btn-primary btn-block'
                             value='Login'
+                            data-cy='submit-login'
                         />
                     </div>
                 </form>
-                <Link to={'/register'} className='link-account'>
+                <Link
+                    to={ '/register' }
+                    className='link-account'
+                    data-cy='register-link'
+                >
                     Register
                 </Link>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

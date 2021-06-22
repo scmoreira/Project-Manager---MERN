@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 mongoose
     .connect(process.env.DB_REMOTE, {
@@ -7,8 +7,8 @@ mongoose
     })
     .then(x => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
     .catch(err => {
-        console.error('Error connecting to mongo', err)
-        process.exit(1) // To stop the app
-    })
+        console.error('Error connecting to mongo', err);
+        process.exit(1); // To stop the app
+    });
 
-module.exports = mongoose
+module.exports = mongoose;

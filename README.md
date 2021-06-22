@@ -12,6 +12,7 @@ A project to practice MERN stack.
 
 - Client side
   - React.js
+  - Cypress
 - Server side
   - Node.js
   - Express.js

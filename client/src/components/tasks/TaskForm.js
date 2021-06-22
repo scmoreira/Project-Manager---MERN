@@ -1,92 +1,73 @@
-import React, { useState, useContext, useEffect } from 'react'
-import ProjectContext from '../../context/projects/projectContext'
-import TaskContext from '../../context/tasks/taskContext'
+import React, { useState, useContext, useEffect } from 'react';
+import ProjectContext from '../../context/projects/projectContext';
+import TaskContext from '../../context/tasks/taskContext';
 
 const TaskForm = () => {
 
-    // Context
-    const projectContext = useContext(ProjectContext)
-    const taskContext = useContext(TaskContext)
+    const { project } = useContext(ProjectContext);
+    const { selectedTask, taskValidation, getProjectTasks, showError, addTask, updateTask, cleanSelected } = useContext(TaskContext);
+    const [task, setTask] = useState({ name: '' });
 
-    // Destructuring
-    const { project } = projectContext
-    const { selectedTask, taskValidation, getProjectTasks, showError, addTask, updateTask, cleanSelected } = taskContext
-
-    // State
-    const [task, setTask] = useState({ name: '' })
-
-    // Check if there is a selected task
     useEffect(() => {
         if (selectedTask !== null) {
-            setTask(selectedTask)
+            setTask(selectedTask);
         } else {
-            setTask({ name: '' })
+            setTask({ name: '' });
         }
-    }, [selectedTask])
+    }, [selectedTask]);
 
-    if (!project) return null
+    if (!project) return null;
 
-    // Upadate task state
     const handleChange = e => {
         setTask({
             ...task,
-            [e.target.name] : e.target.value
-        })
-    }
+            [e.target.name]: e.target.value
+        });
+    };
 
-    // Add a task
     const handleSubmit = e => {
-        e.preventDefault()
-
-        // Field validation
+        e.preventDefault();
         if (task.name.trim() === '') {
-            showError()
-            return
+            showError();
+            return;
         }
-
-        // Check if creating or updating 
         if (selectedTask === null) {
-            // Add task
-            task.projectId = project[0]._id
-            addTask(task)
+            task.projectId = project[0]._id;
+            addTask(task);
         } else {
-            // Update task
-            updateTask(task)
-            // Clean selected task
-            cleanSelected()
+            updateTask(task);
+            cleanSelected();
         }
-
-        // Update context
-        getProjectTasks(project[0].id)
-
-        // Restart form
-        setTask({ name: '' })
-    }
+        getProjectTasks(project[0].id);
+        setTask({ name: '' });
+    };
 
     return (
         <div className='form'>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={ handleSubmit }>
                 <div className='input-container'>
-                    <input 
+                    <input
                         type='text'
                         name='name'
-                        value={task.name}
+                        value={ task.name }
                         className='input-text'
                         placeholder='Task Name'
-                        onChange={handleChange}
+                        onChange={ handleChange }
+                        data-cy='task-input'
                     />
                 </div>
                 <div className='input-container'>
-                    <input 
+                    <input
                         type='submit'
                         className='btn btn-primary btn-submit btn-block'
-                        value={selectedTask ? 'Edit task' : 'Add task'}
+                        value={ selectedTask ? 'Edit task' : 'Add task' }
+                        data-cy='submit-task'
                     />
                 </div>
             </form>
-            {taskValidation && <p className='message error'>Task name is requiered</p>}
+            {taskValidation && <p data-cy='alert' className='message error'>Task name is requiered</p> }
         </div>
-    )
-}
+    );
+};
 
-export default TaskForm
+export default TaskForm;

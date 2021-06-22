@@ -1,54 +1,48 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 
-import TaskContext from '../../context/tasks/taskContext'
-import ProjectContext from '../../context/projects/projectContext'
+import TaskContext from '../../context/tasks/taskContext';
+import ProjectContext from '../../context/projects/projectContext';
 
 const Task = ({ task }) => {
-    
-    // Context
-    const taskContext = useContext(TaskContext)
-    const projectContext = useContext(ProjectContext)
 
-    // Destructuring
-    const { name, state } = task
-    const { getProjectTasks, updateTask, currentTask, deleteTask } = taskContext
-    const { project } = projectContext  
-    
-    const [currentProject] = project
+    const { getProjectTasks, updateTask, currentTask, deleteTask } = useContext(TaskContext);
+    const { project } = useContext(ProjectContext);
+    const { name, state } = task;
 
-    // Delete task
+    const [currentProject] = project;
+
     const handleClickDelete = id => {
-        deleteTask(id, currentProject._id)
-        getProjectTasks(currentProject.id) 
-    }
+        deleteTask(id, currentProject._id);
+        getProjectTasks(currentProject.id);
+    };
 
-    // Update task state
     const handleClickState = task => {
         if (task.state) {
-            task.state = false
+            task.state = false;
         } else {
-            task.state = true
+            task.state = true;
         }
-        updateTask(task)
-    }
+        updateTask(task);
+    };
 
-    // Select task to update
-    const handleClickEdit = task => { currentTask(task) }
+    const handleClickEdit = task => { currentTask(task); };
 
     return (
-        <li className='task shadow'>
-            <p>{name}</p>
+        <li data-cy='task' className='task shadow'>
+            <p>{ name }</p>
             <div className='state'>
-                {state
+                { state
                     ? <button
                         type='button'
                         className='complete'
-                        onClick={() => handleClickState(task)}
+                        onClick={ () => handleClickState(task) }
+                        data-cy='complete-task'
                     >Complete</button>
                     : <button
                         type='button'
                         className='incomplete'
-                        onClick={() => handleClickState(task)}
+                        onClick={ () => handleClickState(task) }
+                        data-cy='incomplete-task'
                     >Incomplete</button>
                 }
             </div>
@@ -56,18 +50,18 @@ const Task = ({ task }) => {
                 <button
                     type='button'
                     className='btn btn-primary'
-                    onClick= {() => handleClickEdit(task)}
+                    onClick={ () => handleClickEdit(task) }
+                    data-cy='btn-edit'
                 >Edit</button>
                 <button
                     type='button'
                     className='btn btn-secondary'
-                    onClick= {() => handleClickDelete(task._id)}
+                    onClick={ () => handleClickDelete(task._id) }
+                    data-cy='btn-delete'
                 >Delete</button>
             </div>
-
         </li>
-        
-    )
-}
+    );
+};
 
-export default Task
+export default Task;

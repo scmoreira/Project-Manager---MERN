@@ -1,9 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const { check } = require('express-validator')
+const express = require('express');
+const router = express.Router();
+const { check } = require('express-validator');
 
-const taskController = require('../controllers/taskController')
-const auth = require('../configs/middleware.config')
+const taskController = require('../controllers/taskController');
+const auth = require('../configs/middleware.config');
 
 // Endpoint: api/task
 
@@ -11,7 +11,7 @@ const auth = require('../configs/middleware.config')
 router.get('/',
     auth,
     taskController.getTasks
-)
+);
 
 // Create new task
 router.post('/',
@@ -21,7 +21,7 @@ router.post('/',
         check('projectId', 'Project Id is required').not().isEmpty()
     ],
     taskController.createTask
-)
+);
 
 // Update a task
 router.put('/:id',
@@ -31,12 +31,12 @@ router.put('/:id',
         check('projectId', 'Project Id is required').not().isEmpty()
     ],
     taskController.updateTask
-)
+);
 
 // Delete task
 router.delete('/:id',
     auth,
     taskController.deleteTask
-)
+);
 
-module.exports = router
+module.exports = router;
